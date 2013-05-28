@@ -7,7 +7,7 @@
 
   // common config
   var config = {
-    'host': 'https://www.wunderlist.com'
+    'host': 'http://alpha.propularity.com'
   };
 
   // modules can be imported individually for different extensions, but all will export onto window.WL
@@ -116,7 +116,9 @@
     title = encodeURIComponent(title);
     note = encodeURIComponent(note);
 
-    return config.host + '/#/extension/add/' + title + '/' + note;
+    // return config.host + '/#/extension/add/' + title + '/' + note;
+    // return 'https://www.wunderlist.com' + '/#/extension/add/' + title + '/' + note;
+    return config.host + '/thirdparty/web/login/' +  '?url=/me/';
   }
 
   function buildCss (options) {
