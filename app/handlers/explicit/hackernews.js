@@ -1,4 +1,4 @@
-define( 'app/handlers/hackernews'
+define( 'app/handlers/explicit/hackernews'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
@@ -18,7 +18,7 @@ define( 'app/handlers/hackernews'
     model.set('name', $el.text());
     model.set('id', $el.text());
 
-    model.get('authority').href = $el.attr('href');
+    model.get('authority').uri = $el.attr('href');
 
     var $el_context = $el.closest('tr').prev('tr').find('td.title a').first();
     if ($el_context) {

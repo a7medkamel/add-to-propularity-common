@@ -1,4 +1,4 @@
-define( 'app/handlers/plus.google'
+define( 'app/handlers/explicit/plus.google'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
@@ -16,7 +16,7 @@ define( 'app/handlers/plus.google'
     model.set('name', $el.text());
     model.set('id', $el.attr('oid'));
 
-    model.get('authority').href = $el.prop('href');
+    model.get('authority').uri = $el.prop('href');
 
     switch(model.get('type')) {
       case 'list.item':

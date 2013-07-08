@@ -10,34 +10,21 @@ define('app/workflow', [], function(workflow){
       if (elm.length === 0) {
         // Create styles for overlay
         // var transitionSpeed = options && options.transitionSpeed || 500;
-        // var opacity = options && options.opacity || 0;
-
-        // var css = 'opacity:' + opacity + ';-webkit-transition:opacity ' + transitionSpeed + 'ms linear;';
 
         elm = $('<iframe />');
-        elm  .attr('allowtransparency', 'true')
+        elm .attr('allowtransparency', 'true')
             .attr('scrolling', 'no')
             .attr('id', id)
             .attr('name', id)
             .attr('src', options.src)
-            // .attr('style', css)
+            .addClass('chrome-extension')
+            .addClass('overlay')
             ;
 
-        elm.load(function(e){
-          $('body').css({ 'overflow': 'hidden' });
-
-          $(this).css('opacity', 1);
-           //setTimeout(function () {
-
-          //   frame.style.cssText = WL.buildCss({
-
-          //     'opacity': 1,
-          //     'transitionSpeed': 50
-          //   });
-          // }, 0);
-        });
-
         $('body').append(elm);
+        $('body').css({ 'overflow': 'hidden' });
+
+        elm.load(function(e){});
 
         function xdm_handler(e) {
           switch(e.data) {

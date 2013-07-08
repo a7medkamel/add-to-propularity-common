@@ -1,4 +1,4 @@
-define( 'app/handlers/facebook'
+define( 'app/handlers/explicit/facebook'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
@@ -20,7 +20,7 @@ define( 'app/handlers/facebook'
     var id_match = stream_uri_id_capture.exec($el.prop('href'));
     model.set('id', id_match? id_match[1] : undefined);
 
-    model.get('authority').href = $el.closest('a').prop('href');
+    model.get('authority').uri = $el.closest('a').prop('href');
 
     switch(model.get('type')) {
       case 'list.item':

@@ -1,31 +1,35 @@
-define('app/app', ['app/conf', 'app/workflow', 'app/registry', 'app/models/page', 'app/models/identity'], function(conf, workflow, registry, Page, Identity){
+define('app/app', [ 'app/conf'
+                  , 'app/workflow'
+                  , 'app/registry'
+                  , 'app/models/identity'
+                  , 'app/decorators/identity']
+                  , function(conf, workflow, registry, Identity, identity_decorator){
+
   function startup() {
+    var handlers = registry.findAll();
 
-    registry.registerAll();
+    var models = [].concat.apply([], handlers.map(function(i){
+      return i.isHandlerFor(document)? i.findAll() : [];
+    }));
 
-    Page.process(function(err, page){
-      if (!err && page) {
+    // console.log(models);
+    models.forEach(function(i){
+      (i.get('$int').handler.decorate || identity_decorator.decorate)(i);
+      i.get('$decorator').click(function(event){
+        event.preventDefault();
 
-        page.get('identities').forEach(function(model){
-          model.get('$decorator').click(function(event){
-            event.preventDefault();
+        var model = $(this).data('propularity-model');
 
-            var model = $(this).data('propularity-model');
-
-            console.log(model);
-            workflow.overlay({
-                show  : true
-              , id    : conf.overlay.id
-              , src   : Identity.get_message_post_href(model)
-              // , src   : 'http://alpha.propularity.com/thirdparty/web/login/'
-            });
-
-            // todo correctly prevent navigation
-            return false;
-          });
+        workflow.overlay({
+            show  : true
+          , id    : conf.overlay.id
+          , src   : Identity.get_message_post_href(model)
+          // , src   : 'http://alpha.propularity.com/thirdparty/web/login/'
         });
 
-      }
+        // todo correctly prevent navigation
+        return false;
+      });
     });
   }
 

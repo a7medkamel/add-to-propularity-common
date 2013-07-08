@@ -1,12 +1,12 @@
-define( 'app/handlers/reddit'
+define( 'app/handlers/explicit/engadget'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
       version     : 1
     , authority   : {
-        alias     : 'reddit'
-      , uri       : /reddit\.com/
-      , domain    : 'reddit.com'
+        alias     : 'engadget'
+      , uri       : /engadget\.com/
+      , domain    : 'engadget.com'
     }
   });
 
@@ -18,11 +18,11 @@ define( 'app/handlers/reddit'
     model.set('name', $el.text());
     model.set('id', $el.text());
 
-    model.get('authority').href = $el.attr('href');
+    model.get('authority').name = model.get('type').indexOf('@engadget') != -1 ? 'engadget' : 'livefyre';
 
     switch(model.get('type')) {
-      case 'list.item':
-        var $el_context = $el.closest('.entry').find('a.title');
+      case 'list.item@engadget':
+        var $el_context = $el.closest('.post-header').find('.headline a');
         if ($el_context) {
           model.set('context', {
               $el   : $el_context
@@ -31,13 +31,14 @@ define( 'app/handlers/reddit'
           });
         }
         break;
-      case 'item.comment':
-        var $el_context = $el.closest('.entry');
+      case 'item.comment@livefyre':
+        var $el_context = $el.closest('.fyre-comment-article');
         if ($el_context) {
           model.set('context', {
               $el     : $el_context
-            , uri     : $el_context.find('.bylink').attr('href')
-            , content : $el_context.find('.usertext-body').text()
+            , id      : $el_context.find('article').attr('id')
+            , content : $el_context.find('.fyre-comment-body .fyre-comment').text()
+            , uri     : document.location.href
           });
         }
         break;
@@ -47,14 +48,14 @@ define( 'app/handlers/reddit'
   };
 
   handler.getType = function($el) {
-    if ($el.closest('.commentarea').length) {
-      return 'item.comment';
+    if ($el.closest('a.fyre-comment-username').length) {
+      return 'item.comment@livefyre';
     }
-    return 'list.item';
+    return 'list.item@engadget';
   };
 
   handler.findAll = function(){
-    return _.map($.makeArray($('a.author')), create);
+    return _.map($.makeArray($('.byline a, a.fyre-comment-username')), create);
   };
 
   return handler;

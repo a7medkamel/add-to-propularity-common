@@ -1,4 +1,4 @@
-define( 'app/handlers/cnn'
+define( 'app/handlers/explicit/cnn'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
@@ -18,7 +18,7 @@ define( 'app/handlers/cnn'
     model.set('name', $el.text());
     model.set('id', $el.attr('data-user'));
 
-    model.get('authority').href = $el.attr('href');
+    model.get('authority').uri = $el.attr('href');
 
     var $el_context = $el.closest('li');
     if ($el_context) {

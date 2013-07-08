@@ -1,0 +1,44 @@
+
+.propularity {
+	// Core variables and mixins
+	@import "libs/bootstrap/less/variables.less";
+	@import "libs/bootstrap/less/mixins.less";
+
+	@import "libs/bootstrap/less/buttons.less";
+
+	.propularity-button {
+		box-shadow 			: none;
+		-webkit-box-shadow 	: none;
+		text-shadow  		: none;
+		border-color 		: transparent;
+		font-family 		: sans-serif;
+	}
+
+	button {
+		.propularity-button;
+
+		&:hover, &:focus, &:active, &:visited {
+			.propularity-button;
+		};
+	}
+}
+
+.chrome-extension-overlay () {
+	background 			: none;
+	border  			: none;
+	height 				: 100%;
+	width 				: 100%;
+	position 			: fixed;
+	z-index  			: 99999999;
+	top 				: 0;
+	left 				: 0;
+	display 			: block;
+	opacity 			: 1;
+	-webkit-transition 	: opacity 500ms linear;
+}
+
+.chrome-extension {
+	&.overlay {
+		.chrome-extension-overlay() !important
+	}
+}

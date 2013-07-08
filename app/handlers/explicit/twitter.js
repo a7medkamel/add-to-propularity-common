@@ -1,4 +1,4 @@
-define( 'app/handlers/twitter'
+define( 'app/handlers/explicit/twitter'
       , ['app/models/handler', 'app/models/identity']
       , function(Handler, Identity){
   var handler = new Handler({
@@ -18,7 +18,7 @@ define( 'app/handlers/twitter'
     model.set('name', $el.text());
     model.set('id', $el.text());
 
-    model.get('authority').href = $el.closest('a').prop('href');
+    model.get('authority').uri = $el.closest('a').prop('href');
 
     switch(model.get('type')) {
       case 'list.item':

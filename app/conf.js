@@ -2,9 +2,17 @@ define('app/conf', [], function(){
   return {
         namespace 					: 'propularity'
       , host      					: 'http://alpha.propularity.com/'
-      , handlers_namespace 	: 'app/handlers/'
+      , handlers 						: {
+      		namespace 				: 'app/handlers/'
+      	, context 					: '_'
+      }
       , overlay   					: {
-            id    : 'wunderlist_overlay'
+            id    : 'chrome-extension-overlay'
+      }
+      , modules             : {
+          findAll : function() {
+            return require.s.contexts['_'].registry;
+          }
       }
   };
 });
