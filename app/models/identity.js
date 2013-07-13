@@ -24,16 +24,24 @@ define('app/models/identity', ['app/conf', 'libs/backbone'], function(conf, Back
       }
   }, {
       create : function(handler, $el, type){
-        return new Identity({
-            $el         : $el
-          , type        : type || (handler.getType? handler.getType($el) : undefined)
-          , authority   : {
-              name      : handler.get('authority').alias
-          }
-          , $int        : {
-              handler   : handler
-          }
-        });
+        var model = $el.data('propularity-model')
+
+        if (!model) {
+          model = new Identity({
+              $el         : $el
+            , type        : type || (handler.getType? handler.getType($el) : undefined)
+            , authority   : {
+                name      : handler.get('authority').alias
+            }
+            , $int        : {
+                handler   : handler
+            }
+          });
+
+          $el.data('propularity-model', model);
+        }
+
+        return model;
       }
     , get_message_post_href : function(model) {
         // http://alpha.propularity.com/thirdparty/web/user/reddit/timmyak/message/?context={%22uri%22:%22http://ahmedkamel.not/2013/01/30/tip-13-ubuntu-find-process-listening-to-port-80/%22}
