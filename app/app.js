@@ -24,7 +24,6 @@ define('app/app', [ 'app/conf'
             show  : true
           , id    : conf.overlay.id
           , src   : Identity.get_message_post_href(model)
-          // , src   : 'http://alpha.propularity.com/thirdparty/web/login/'
         });
 
         // todo correctly prevent navigation

@@ -1,27 +1,15 @@
 define( 'app/handlers/microformat/1'
       , ['app/models/handler', 'app/models/identity']
-      , function(Handler, Identity, options){
-
-  options = options || {};
-
-  var defaults = {
-    authority : {
-        alias     : undefined
-      , uri       : undefined
-      , domain    : undefined
-    }
-  };
-
-  jQuery.extend( options, defaults );
+      , function(Handler, Identity){
 
   var data_attr_prefix = 'propularity-give-';
 
   var handler = new Handler({
       version     : 1
     , authority   : {
-        alias     : options.authority.alias
-      , uri       : options.authority.uri
-      , domain    : options.authority.domain
+        alias     : 'microformat 1.0'
+      , uri       : document.location.hostname
+      , domain    : document.location.hostname
     }
   });
 
