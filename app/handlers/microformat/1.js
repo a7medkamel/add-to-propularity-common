@@ -13,8 +13,8 @@ define( 'app/handlers/microformat/1'
     }
   });
 
-  function create(el, type) {
-    var model = Identity.create(handler, $(el), type);
+  handler.createModel = function(el, type) {
+    var model = Handler.prototype.createModel.call(this, el, type);
 
     var $el = model.get('$el');
 
@@ -31,32 +31,25 @@ define( 'app/handlers/microformat/1'
     return model;
   };
 
-  handler.findAll = function(){
-    var selectors = [
-        { selector : '*[data-propularity-send]', type : 'standalone' }
-    ];
-
-    return Array.prototype.concat.apply([], _.map(selectors, function(item){
-      return _.map($.makeArray($(item.selector)), function(el){ return create(el, item.type); });
-    }));
-  };
+  handler.selectors = [
+      { selector : '*[data-propularity-send]', type : 'standalone' }
+  ];
 
   handler.isHandlerFor = function(document){
     return $('*[data-propularity-send]').length > 0;
   };
 
+  handler.create$el = function(model){
+    return $('<button class="btn btn-success">give &thorn;rop</button>');
+  };
+
   handler.decorate = function(model){
     var $el         = model.get('$el')
-      , $decorator  = $('<button class="btn btn-success">give &thorn;rop</button>')
+      , $decorator  = this.badge(model)
       ;
-
-    $decorator.attr('href', Identity.get_message_post_href(model));
-    $decorator.data('propularity-model', model);
 
     $el.append($decorator);
     $el.addClass('propularity');
-
-    model.set('$decorator', $decorator);
   };
 
   return handler;

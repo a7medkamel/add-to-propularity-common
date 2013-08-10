@@ -10,8 +10,8 @@ define( 'app/handlers/explicit/reddit'
     }
   });
 
-  function create(el) {
-    var model = Identity.create(handler, $(el));
+  handler.createModel = function(el, type) {
+    var model = Handler.prototype.createModel.call(this, el, type);
 
     var $el = model.get('$el');
 
@@ -46,6 +46,19 @@ define( 'app/handlers/explicit/reddit'
     return model;
   };
 
+  handler.create$el = function(model){
+    return $('<a class="prop-ref">give &thorn;rops</a>');
+  };
+
+  handler.decorate = function(model){
+    var $el         = model.get('$el')
+      , $decorator  = this.badge(model)
+      , $li         = $('<li />')
+      ;
+
+    $el.closest('.entry').find('ul.buttons').append($li.append($decorator));
+  };
+
   handler.getType = function($el) {
     if ($el.closest('.commentarea').length) {
       return 'item.comment';
@@ -53,9 +66,9 @@ define( 'app/handlers/explicit/reddit'
     return 'list.item';
   };
 
-  handler.findAll = function(){
-    return _.map($.makeArray($('a.author')), create);
-  };
+  handler.selectors = [
+      { selector : 'a.author' }
+  ];
 
   return handler;
 });

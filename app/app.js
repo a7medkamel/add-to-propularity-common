@@ -1,9 +1,8 @@
 define('app/app', [ 'app/conf'
                   , 'app/workflow'
                   , 'app/registry'
-                  , 'app/models/identity'
-                  , 'app/decorators/identity']
-                  , function(conf, workflow, registry, Identity, identity_decorator){
+                  , 'app/models/identity']
+                  , function(conf, workflow, registry, Identity){
 
   function startup() {
     var handlers = registry.findAll();
@@ -12,9 +11,8 @@ define('app/app', [ 'app/conf'
       return i.isHandlerFor(document)? i.findAll() : [];
     }));
 
-    // console.log(models);
     models.forEach(function(i){
-      (i.get('$int').handler.decorate || identity_decorator.decorate)(i);
+      i.get('$int').handler.decorate(i);
       i.get('$decorator').click(function(event){
         event.preventDefault();
 
